@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #ecfdf5, #d1fae5);
+  color: #064e3b;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.auth-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgb(15 23 42 / 0.2);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.65rem;
+}
+
+header p {
+  margin: 0.35rem 0 1.5rem;
+  color: #475569;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: #047857;
+  color: #fff;
+  border-color: #047857;
+}
+
+.form.hidden {
+  display: none;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.field input,
+.field select {
+  border: 1px solid #a7f3d0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #047857;
+  box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+  outline: none;
+}
+
+.form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-footer button {
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.form-footer button:hover {
+  opacity: 0.9;
+}
+
+.form-message {
+  min-height: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.form-message.error {
+  color: #b91c1c;
+}
+
+.form-message.success {
+  color: #047857;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+}
+
