@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PanelPrompt | Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      .dashboard {
+        max-width: 700px;
+        margin: 4rem auto;
+        background: #ecfdf5;
+        border-radius: 18px;
+        padding: 2rem;
+        box-shadow: 0 35px 65px -25px rgba(4, 78, 59, 0.35);
+        color: #064e3b;
+      }
+
+      .dashboard h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .dashboard p {
+        color: #047857;
+      }
+
+      .dashboard small {
+        display: block;
+        margin-top: 1.5rem;
+        color: #0f766e;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .logout-btn {
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: #ecfdf5;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .logout-btn:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="dashboard">
+      <div class="dashboard-header">
+        <h1>You're in! 🎉</h1>
+        <button id="logoutButton" class="logout-btn" type="button">
+          Logout
+        </button>
+      </div>
+      <p>
+        This is a placeholder dashboard. Replace this view with your real data
+        or redirect users deeper into your product once Supabase sessions are
+        wired in.
+      </p>
+      <small>
+        Tip: gate this page behind Supabase auth by validating access tokens in
+        FastAPI before returning content.
+      </small>
+    </section>
+    <script>
+      const logoutButton = document.getElementById("logoutButton");
+      logoutButton?.addEventListener("click", async () => {
+        logoutButton.disabled = true;
+        try {
+          const response = await fetch("/api/logout", { method: "POST" });
+          const data = await response.json();
+          const redirectTo = data.redirect_to || "/";
+          window.location.href = redirectTo;
+        } catch {
+          // Even if the call fails, send the user back to the login page.
+          window.location.href = "/";
+        }
+      });
+    </script>
+  </body>
+</html>
+
