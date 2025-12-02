@@ -225,14 +225,7 @@ def login_user(payload: LoginForm, service: SupabaseService = Depends(get_supaba
 
 @app.post("/api/logout")
 def logout_user():
-    """
-    Basic logout endpoint.
-
-    In this minimal example we are not maintaining server-side sessions; the
-    frontend simply calls this endpoint and then redirects back to "/".
-    If you later add Supabase access tokens or cookies, you can revoke or
-    clear them here (e.g. via client.auth.sign_out()).
-    """
+   
     return {"message": "Logged out successfully.", "redirect_to": "/"}
 
 

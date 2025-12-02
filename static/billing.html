@@ -1,0 +1,95 @@
+<div class="fade-in space-y-6 max-w-3xl">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Billing & Payments</h2>
+    <p class="text-gray-500">
+      Choose an amount, pick a payment provider, and click “Add Funds”. This is a static preview.
+    </p>
+  </div>
+
+  <section class="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Amount</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button
+          class="amount-btn px-4 py-3 border-2 border-gray-200 rounded-xl font-medium hover:border-emerald-500 hover:bg-emerald-50 transition"
+          data-amount="25"
+        >
+          $25
+        </button>
+        <button
+          class="amount-btn px-4 py-3 border-2 border-gray-200 rounded-xl font-medium hover:border-emerald-500 hover:bg-emerald-50 transition"
+          data-amount="50"
+        >
+          $50
+        </button>
+        <button
+          class="amount-btn px-4 py-3 border-2 border-gray-200 rounded-xl font-medium hover:border-emerald-500 hover:bg-emerald-50 transition"
+          data-amount="100"
+        >
+          $100
+        </button>
+        <button
+          class="amount-btn px-4 py-3 border-2 border-gray-200 rounded-xl font-medium hover:border-emerald-500 hover:bg-emerald-50 transition"
+          data-amount="250"
+        >
+          $250
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-600 block mb-2">Custom Amount</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">$</span>
+        <input
+          type="number"
+          id="customAmount"
+          min="1"
+          step="0.01"
+          placeholder="Enter any amount"
+          class="w-full rounded-xl border border-gray-200 pl-8 pr-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Payment Method</h3>
+      <div class="space-y-3">
+        <label
+          class="payment-option flex items-center gap-3 border-2 border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-emerald-500 transition"
+        >
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="Stripe"
+            class="w-5 h-5 text-emerald-600"
+            checked
+          />
+          <i class="fab fa-stripe text-2xl text-gray-700"></i>
+          <span class="font-medium text-gray-800">Stripe</span>
+        </label>
+
+        <label
+          class="payment-option flex items-center gap-3 border-2 border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-emerald-500 transition"
+        >
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="PayPal"
+            class="w-5 h-5 text-emerald-600"
+          />
+          <i class="fab fa-paypal text-2xl text-blue-600"></i>
+          <span class="font-medium text-gray-800">PayPal</span>
+        </label>
+      </div>
+    </div>
+
+    <button
+      id="addFundsButton"
+      class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition"
+    >
+      Add Funds
+    </button>
+  </section>
+</div>
+

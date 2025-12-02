@@ -4,88 +4,547 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PanelPrompt | Dashboard</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-      .dashboard {
-        max-width: 700px;
-        margin: 4rem auto;
-        background: #ecfdf5;
-        border-radius: 18px;
-        padding: 2rem;
-        box-shadow: 0 35px 65px -25px rgba(4, 78, 59, 0.35);
-        color: #064e3b;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
-      .dashboard h1 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
+      .fade-in {
+        animation: fadeIn 0.3s ease-out;
       }
 
-      .dashboard p {
-        color: #047857;
+      .menu-item {
+        transition: all 0.25s ease;
       }
 
-      .dashboard small {
-        display: block;
-        margin-top: 1.5rem;
-        color: #0f766e;
+      .menu-item:hover {
+        transform: translateX(4px);
       }
 
-      .dashboard-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
       }
 
-      .logout-btn {
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        color: #ecfdf5;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 0.9rem;
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f5f9;
       }
 
-      .logout-btn:hover {
-        opacity: 0.9;
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
       }
     </style>
   </head>
-  <body>
-    <section class="dashboard">
-      <div class="dashboard-header">
-        <h1>You're in! 🎉</h1>
-        <button id="logoutButton" class="logout-btn" type="button">
-          Logout
+  <body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="w-64 bg-gradient-to-b from-emerald-900 to-emerald-800 text-white flex flex-col shadow-lg fixed lg:static inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
+      >
+        <div class="p-6 border-b border-emerald-700">
+          <h1 class="text-xl font-bold">PanelPrompt</h1>
+          <p class="text-emerald-200 text-sm mt-1">AI Query Platform</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto custom-scrollbar p-4">
+          <ul class="space-y-2">
+            <li>
+              <button
+                class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium"
+                data-page="dashboard"
+              >
+                <i class="fas fa-home w-5"></i>
+                <span>Dashboard</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-emerald-100 hover:bg-emerald-700/40"
+                data-page="query"
+              >
+                <i class="fas fa-comments w-5"></i>
+                <span>Query Assistant</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-emerald-100 hover:bg-emerald-700/40"
+                data-page="history"
+              >
+                <i class="fas fa-history w-5"></i>
+                <span>Chat History</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-emerald-100 hover:bg-emerald-700/40"
+                data-page="account"
+              >
+                <i class="fas fa-user-cog w-5"></i>
+                <span>Account Settings</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-emerald-100 hover:bg-emerald-700/40"
+                data-page="billing"
+              >
+                <i class="fas fa-wallet w-5"></i>
+                <span>Billing & Payments</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="p-4 border-t border-emerald-700">
+          <button
+            id="logoutButton"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-emerald-100 hover:bg-red-600 transition"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+
+        <button
+          id="closeSidebar"
+          class="lg:hidden absolute top-4 right-4 text-white hover:text-emerald-200"
+        >
+          <i class="fas fa-times text-xl"></i>
         </button>
-      </div>
-      <p>
-        This is a placeholder dashboard. Replace this view with your real data
-        or redirect users deeper into your product once Supabase sessions are
-        wired in.
-      </p>
-      <small>
-        Tip: gate this page behind Supabase auth by validating access tokens in
-        FastAPI before returning content.
-      </small>
-    </section>
+      </aside>
+
+      <div
+        id="sidebarOverlay"
+        class="fixed inset-0 bg-black/50 z-40 lg:hidden hidden"
+      ></div>
+
+      <!-- Main -->
+      <main class="flex-1 overflow-y-auto custom-scrollbar">
+        <header
+          class="bg-white border-b border-gray-200 sticky top-0 z-30 flex items-center justify-between px-4 py-3 lg:px-6"
+        >
+          <button
+            id="openSidebar"
+            class="lg:hidden text-gray-600 hover:text-gray-900"
+          >
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+          <div class="ml-auto flex items-center gap-4 text-sm text-gray-600">
+            <span class="font-medium">Account ID:</span>
+            <span class="text-emerald-600 font-mono">ACC-2024-001234</span>
+          </div>
+        </header>
+
+        <section id="contentArea" class="p-4 lg:p-6"></section>
+      </main>
+    </div>
+
     <script>
-      const logoutButton = document.getElementById("logoutButton");
-      logoutButton?.addEventListener("click", async () => {
-        logoutButton.disabled = true;
-        try {
-          const response = await fetch("/api/logout", { method: "POST" });
-          const data = await response.json();
-          const redirectTo = data.redirect_to || "/";
-          window.location.href = redirectTo;
-        } catch {
-          // Even if the call fails, send the user back to the login page.
-          window.location.href = "/";
-        }
+      const PAGE_DEFINITIONS = {
+        dashboard: { type: "inline" },
+        query: { type: "remote", path: "/static/query.html", init: initQueryPage },
+        history: { type: "remote", path: "/static/history.html", init: initHistoryPage },
+        account: { type: "remote", path: "/static/account.html", init: initAccountPage },
+        billing: { type: "remote", path: "/static/billing.html", init: initBillingPage },
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setupSidebar();
+        setupNav();
+        setupLogout();
+        loadPage("dashboard");
       });
+
+      function setupNav() {
+        document.querySelectorAll("[data-page]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const page = button.getAttribute("data-page");
+            loadPage(page);
+          });
+        });
+      }
+
+      function setupSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        const openBtn = document.getElementById("openSidebar");
+        const closeBtn = document.getElementById("closeSidebar");
+
+        const openSidebar = () => {
+          sidebar?.classList.remove("-translate-x-full");
+          overlay?.classList.remove("hidden");
+        };
+
+        const closeSidebar = () => {
+          sidebar?.classList.add("-translate-x-full");
+          overlay?.classList.add("hidden");
+        };
+
+        openBtn?.addEventListener("click", openSidebar);
+        closeBtn?.addEventListener("click", closeSidebar);
+        overlay?.addEventListener("click", closeSidebar);
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 1024) {
+            sidebar?.classList.remove("-translate-x-full");
+            overlay?.classList.add("hidden");
+          }
+        });
+      }
+
+      function setupLogout() {
+        const logoutBtn = document.getElementById("logoutButton");
+        logoutBtn?.addEventListener("click", async () => {
+          logoutBtn.disabled = true;
+          try {
+            const response = await fetch("/api/logout", { method: "POST" });
+            const data = await response.json();
+            window.location.href = data.redirect_to || "/";
+          } catch (error) {
+            window.location.href = "/";
+          }
+        });
+      }
+
+      async function loadPage(pageKey) {
+        const definition = PAGE_DEFINITIONS[pageKey];
+        if (!definition) {
+          renderError("Unknown page requested.");
+          return;
+        }
+
+        setActiveNav(pageKey);
+        showLoadingState();
+
+        if (definition.type === "inline") {
+          renderDashboardView();
+          return;
+        }
+
+        try {
+          const response = await fetch(definition.path, { cache: "no-cache" });
+          if (!response.ok) {
+            throw new Error("Unable to load page");
+          }
+          const html = await response.text();
+          document.getElementById("contentArea").innerHTML = html;
+          definition.init?.();
+        } catch (error) {
+          renderError("Failed to load the selected page. Please try again.");
+        }
+      }
+
+      function setActiveNav(activeKey) {
+        document.querySelectorAll("[data-page]").forEach((button) => {
+          const isActive = button.getAttribute("data-page") === activeKey;
+          button.classList.remove("bg-emerald-700", "text-white");
+          button.classList.add("text-emerald-100", "hover:bg-emerald-700/40");
+          if (isActive) {
+            button.classList.add("bg-emerald-700", "text-white");
+            button.classList.remove("text-emerald-100");
+          }
+        });
+      }
+
+      function showLoadingState() {
+        document.getElementById("contentArea").innerHTML = `
+          <div class="flex items-center justify-center h-[60vh] text-gray-500">
+            <div class="flex items-center gap-3">
+              <svg class="animate-spin h-6 w-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+              </svg>
+              <span>Loading page...</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderError(message) {
+        document.getElementById("contentArea").innerHTML = `
+          <div class="p-6 text-center text-red-600 bg-red-50 rounded-xl fade-in">
+            <i class="fas fa-exclamation-circle text-2xl mb-3"></i>
+            <p class="font-semibold">${message}</p>
+          </div>
+        `;
+      }
+
+      function renderDashboardView() {
+        document.getElementById("contentArea").innerHTML = `
+          <div class="fade-in space-y-6">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 mb-2">Dashboard Overview</h2>
+              <p class="text-gray-500">Snapshot of your account health and recent activity.</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-6 text-white">
+              <p class="text-emerald-100 text-sm mb-1">Current Balance</p>
+              <p class="text-4xl font-semibold mb-1">$125.50</p>
+              <p class="text-emerald-100 text-sm">Available credits for queries</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-white rounded-xl shadow p-4">
+                <div class="flex items-center gap-3">
+                  <div class="bg-emerald-100 p-3 rounded-lg">
+                    <i class="fas fa-comments text-emerald-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <p class="text-gray-500 text-sm">Total Chats</p>
+                    <p class="text-xl font-semibold text-gray-800">42</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-xl shadow p-4">
+                <div class="flex items-center gap-3">
+                  <div class="bg-blue-100 p-3 rounded-lg">
+                    <i class="fas fa-robot text-blue-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <p class="text-gray-500 text-sm">Queries This Month</p>
+                    <p class="text-xl font-semibold text-gray-800">18</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-xl shadow p-4">
+                <div class="flex items-center gap-3">
+                  <div class="bg-purple-100 p-3 rounded-lg">
+                    <i class="fas fa-dollar-sign text-purple-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <p class="text-gray-500 text-sm">Spend This Month</p>
+                    <p class="text-xl font-semibold text-gray-800">$45.20</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 space-y-4 hidden">
+              <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <i class="fas fa-comment-dots text-emerald-600"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">Analyzed sales data</p>
+                    <p class="text-xs text-gray-500">2 hours ago</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <i class="fas fa-wallet text-blue-600"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">Added $50.00 via Stripe</p>
+                    <p class="text-xs text-gray-500">1 day ago</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <i class="fas fa-user-edit text-purple-600"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">Updated KYC profile</p>
+                    <p class="text-xs text-gray-500">3 days ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      /* ---------- Page specific scripts ---------- */
+
+      function initQueryPage() {
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+        const chatMessages = document.getElementById("chatMessages");
+        const fileInput = document.getElementById("fileInput");
+        const filePreview = document.getElementById("filePreview");
+        const fileName = document.getElementById("fileName");
+        const removeFile = document.getElementById("removeFile");
+        const attachmentLabel = document.getElementById("attachmentLabel");
+
+        if (!chatInput || !chatMessages) return;
+
+        let selectedFile = null;
+
+        chatInput.addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+
+        fileInput?.addEventListener("change", (event) => {
+          const file = event.target.files?.[0];
+          if (file) {
+            selectedFile = file;
+            fileName.textContent = file.name;
+            filePreview.classList.remove("hidden");
+            attachmentLabel?.classList.add("opacity-50");
+          }
+        });
+
+        removeFile?.addEventListener("click", () => {
+          selectedFile = null;
+          fileInput.value = "";
+          filePreview.classList.add("hidden");
+          attachmentLabel?.classList.remove("opacity-50");
+        });
+
+        const sendMessage = () => {
+          const message = chatInput.value.trim();
+          if (!message && !selectedFile) return;
+
+          if (chatMessages.querySelector(".empty-state")) {
+            chatMessages.innerHTML = "";
+          }
+
+          if (message) {
+            chatMessages.insertAdjacentHTML(
+              "beforeend",
+              `
+                <div class="flex justify-end fade-in">
+                  <div class="bg-emerald-500 text-white rounded-lg px-4 py-2 max-w-[80%]">
+                    ${escapeHtml(message)}
+                  </div>
+                </div>
+              `
+            );
+          }
+
+          if (selectedFile) {
+            chatMessages.insertAdjacentHTML(
+              "beforeend",
+              `
+                <div class="flex justify-end fade-in mt-2">
+                  <div class="bg-emerald-100 text-emerald-800 rounded-lg px-4 py-2 flex items-center gap-2">
+                    <i class="fas fa-paperclip"></i>
+                    <span>${escapeHtml(selectedFile.name)}</span>
+                  </div>
+                </div>
+              `
+            );
+          }
+
+          chatInput.value = "";
+          chatInput.style.height = "auto";
+          selectedFile = null;
+          fileInput.value = "";
+          filePreview.classList.add("hidden");
+          attachmentLabel?.classList.remove("opacity-50");
+
+          setTimeout(() => {
+            chatMessages.insertAdjacentHTML(
+              "beforeend",
+              `
+                <div class="flex justify-start fade-in mt-2">
+                  <div class="bg-white text-gray-800 rounded-lg px-4 py-2 shadow max-w-[80%]">
+                    Placeholder response. Connect to your FastAPI endpoint to return model output here.
+                  </div>
+                </div>
+              `
+            );
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 900);
+
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        sendButton?.addEventListener("click", sendMessage);
+        chatInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+          }
+        });
+      }
+
+      function initHistoryPage() {
+        document.querySelectorAll(".chat-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            const chatId = card.getAttribute("data-chat-id");
+            alert(
+              `Opening chat session ${chatId}...\n\nHook this up to the backend when ready.`
+            );
+            loadPage("query");
+          });
+        });
+      }
+
+      function initAccountPage() {
+        const form = document.getElementById("settingsForm");
+        form?.addEventListener("submit", (event) => {
+          event.preventDefault();
+          alert("Profile saved! Wire this form to Supabase when backend is ready.");
+        });
+      }
+
+      function initBillingPage() {
+        const amountButtons = document.querySelectorAll(".amount-btn");
+        const customAmount = document.getElementById("customAmount");
+        const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        const addFundsButton = document.getElementById("addFundsButton");
+
+        amountButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            amountButtons.forEach((b) =>
+              b.classList.remove("border-emerald-500", "bg-emerald-50")
+            );
+            btn.classList.add("border-emerald-500", "bg-emerald-50");
+            if (customAmount) customAmount.value = "";
+          });
+        });
+
+        customAmount?.addEventListener("input", () => {
+          amountButtons.forEach((b) =>
+            b.classList.remove("border-emerald-500", "bg-emerald-50")
+          );
+        });
+
+        paymentRadios.forEach((radio) => {
+          radio.addEventListener("change", () => {
+            document.querySelectorAll(".payment-option").forEach((opt) =>
+              opt.classList.remove("border-emerald-500", "bg-emerald-50")
+            );
+            radio.closest(".payment-option")?.classList.add("border-emerald-500", "bg-emerald-50");
+          });
+        });
+
+        addFundsButton?.addEventListener("click", () => {
+          const selectedBtn = document.querySelector(".amount-btn.border-emerald-500");
+          const amount = customAmount?.value || selectedBtn?.getAttribute("data-amount");
+          const method = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+          if (!amount || parseFloat(amount) <= 0) {
+            alert("Please select or enter a valid amount.");
+            return;
+          }
+
+          alert(
+            `Pretend payment submitted!\nAmount: $${amount}\nMethod: ${method}\n\nIntegrate Stripe or PayPal here.`
+          );
+        });
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
     </script>
   </body>
 </html>
